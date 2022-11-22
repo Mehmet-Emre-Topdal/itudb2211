@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="p-5">
+    <h2>Attempts</h2>
+    <p>You can add-update-delete teams attempts</p>
+
+    <nav class="navbar bg-light">
+        <a href="/attempts/add_attempts" class="btn btn-primary">Add new attempts</a>
+    </nav>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Team name</th>
+            <th scope="col">Matches</th>
+            <th scope="col">Attempts</th>
+            <th scope="col">Attempts on target</th>
+            <th scope="col">Attempts off target</th>
+            <th scope="col">Attempts Blocked</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Update</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          
+            {% for team in teams %}
+            <tr>
+                <td>{{ team.team_name }}</td>
+                <td>{{ team.matches }}</td>
+                <td>{{ team.attempts }}</td>
+                <td>{{ team.attempts_on_target}}</td>
+                <td>{{ team.attempts_off_target }}</td>
+                <td>{{ team.attempts_blocked }}</td>
+                
+                <td><a href="/delete/{{ task.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
+
+               
+                <td><a href="/edit/{{ task.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
+
+            </tr>
+            {% endfor %}
+
+            
+        </tbody>
+      </table>
+</div>
+{% endblock main %}

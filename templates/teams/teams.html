@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="p-5">
+    <h2>Teams</h2>
+    <p>You can add-update-delete your teams</p>
+
+    <nav class="navbar bg-light">
+        <a href="/teams/add_team" class="btn btn-primary">Add new team</a>
+        
+    </nav>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Team name</th>
+            <th scope="col">Coach</th>
+            <th scope="col">Stadium</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Update</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- serverden tasklist şeklinde gönderilen liste burda for döngüsü ile tek tek basılıyor
+          görüldüğü gibi for döngüsü jinja template içinde yazılmalı -->
+            {% for team in teams %}
+            <tr>
+                <td>{{ team.team_name }}</td>
+                <td>{{ team.coach}}</td>
+                <td>{{ team.stadium  }}</td>
+
+                <!-- delete sayfası gerçek bir html sayfası değil fakat flaskın çalışması için sayfa gibi 
+                verilmesi gerek -->
+                <td><a href="/delete/{{ task.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
+
+                <!-- edit sayfası sizi task editlemeye yarayan update.html sayfasına yönlendirecek -->
+                <td><a href="/edit/{{ task.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
+
+            </tr>
+            {% endfor %}
+
+            
+        </tbody>
+      </table>
+</div>
+{% endblock main %}
