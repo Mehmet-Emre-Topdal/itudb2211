@@ -1,1 +1,7 @@
-I created the repo. I have attached the server.py file. I added the layout.html and index.html pages for the home page. I am responsible for Attack, attemp and teams tables. I made the frontend part of the pages about viewing these three tables and adding data. After connecting with the database, I will also implement the edit and delete functions. In summary, I did the frontend work that I needed to do at this stage of my project.
+22/11/2022 I created the repo. I have attached the server.py file.
+I added the layout.html and index.html pages for the home page. 
+I am responsible for Attack, attemp and teams tables.
+I made the frontend part of the pages about viewing these three tables and adding data. 
+After connecting with the database, I will also implement the edit and delete functions. 
+
+In summary, I did the frontend work that I needed to do.
