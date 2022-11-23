@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="p-5">
+    <h2>Defence</h2>
+    <p>You can add-update-delete teams defence</p>
+
+    <nav class="navbar bg-light">
+        <a href="/defence/add_defence" class="btn btn-primary">Add new defence</a>
+    </nav>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Team name</th>
+            <th scope="col">Saves Made</th>
+            <th scope="col">Blocks</th>
+            <th scope="col">Total Clearances</th>
+            <th scope="col">Interceptions</th>
+            <th scope="col">Recoveries</th>
+            <th scope="col">Goals Conceded</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Update</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          
+            {% for team in teams %}
+            <tr>
+                <td>{{ team.team_name }}</td>
+                <td>{{ team.saves_made }}</td>
+                <td>{{ team.blocks }}</td>
+                <td>{{ team.total_clearances}}</td>
+                <td>{{ team.interceptions}}</td>
+                <td>{{ team.recoveries }}</td>
+                <td>{{ team.goals_conceded }}</td>
+
+                <td><a href="/delete/{{ task.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
+
+               
+                <td><a href="/edit/{{ task.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
+
+            </tr>
+            {% endfor %}
+
+            
+        </tbody>
+      </table>
+</div>
+{% endblock main %}
