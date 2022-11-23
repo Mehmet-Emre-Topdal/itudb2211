@@ -47,7 +47,7 @@ class DefenceForm(Form):
    team_name = StringField("Team name:", validators=[validators.DataRequired()])
    saves_made = IntegerField("Saves Made: ", validators=[validators.DataRequired()])
    blocks = IntegerField("Blocks: ", validators=[validators.DataRequired()])
-   total_clearences = IntegerField("Total Clearences: ", validators=[validators.DataRequired()])
+   total_clearances = IntegerField("Total Clearances: ", validators=[validators.DataRequired()])
    interceptions = IntegerField("Interceptions: ", validators=[validators.DataRequired()])
    recoveries = IntegerField("Recoveries: ", validators=[validators.DataRequired()])
    goals_conceded = IntegerField("Goals Conceded: ", validators=[validators.DataRequired()])
