@@ -66,7 +66,40 @@ def add_attack():
         pass
     
     else:
-        return render_template("attack/add_attack.html", form=form) 
+        return render_template("attack/add_attack.html", form=form)
+
+
+
+
+
+@app.route("/goals")
+def goals():
+   return render_template("goals/goals.html")
+
+@app.route("/goal-type")
+def goal_type():
+   return render_template("goal-type/goal-type.html")
+
+@app.route("/goals/goals-add", methods=["GET","POST"])
+def goals_add():
+    form = GoalsForm(request.form)
+
+    if request.method == "POST" and form.validate(): 
+        pass
+    
+    else:
+        return render_template("goals/goals-add.html", form=form)
+
+@app.route("/goal-type/goal-type-add", methods=["GET","POST"])
+def goal_type_add():
+    form = GoalTypeForm(request.form)
+
+    if request.method == "POST" and form.validate(): 
+        pass
+    
+    else:
+        return render_template("goal-type/goal-type-add.html", form=form) 
+
 
 if __name__ == "__main__":
     app.run(debug=True)

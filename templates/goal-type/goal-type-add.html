@@ -1,0 +1,29 @@
+{% extends "layout.html"  %}
+
+{% block main %}
+
+{% from "formhelpers.html" import render_field %}
+
+<div class="p-5 h-100 w-100 d-flex align-items-center justify-content-center flex-column">
+
+    <h2>Add New Goal Type</h2>
+    
+    <form method="post" class="w-50">
+
+        {{ render_field(form.team_name, class="form-control w-100") }}
+        {{ render_field(form.goals, class="form-control w-100") }}
+        {{ render_field(form.left_foot, class="form-control w-100") }}
+        {{ render_field(form.right_foot, class="form-control w-100") }}
+        {{ render_field(form.header, class="form-control w-100") }}
+        {{ render_field(form.own_goals, class="form-control w-100") }}
+        {{ render_field(form.penalties, class="form-control w-100") }}
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+
+    </form>
+
+    
+</div>
+
+{% endblock main %}

@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="p-5">
+    <h2>Goals</h2>
+    <p>You can add-update-delete teams goals</p>
+
+    <nav class="navbar bg-light">
+        <a href="/goals/goals-add" class="btn btn-primary">Add new goals</a>
+    </nav>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Team name</th>
+            <th scope="col">Matches</th>
+            <th scope="col">Total Goals</th>
+            <th scope="col">Average Goals</th>
+            <th scope="col">Goals Conceded</th>
+            <th scope="col">Average Conceded</th>
+            <th scope="col">Goal Difference</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Update</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          
+            {% for team in teams %}
+            <tr>
+              
+                <td><a href="/delete/{{ task.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
+
+               
+                <td><a href="/edit/{{ task.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
+
+            </tr>
+            {% endfor %}
+
+            
+        </tbody>
+      </table>
+</div>
+{% endblock main %}
