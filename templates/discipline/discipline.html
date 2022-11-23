@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="p-5">
+    <h2>Discipline</h2>
+    <p>You can add-update-delete teams discipline</p>
+
+    <nav class="navbar bg-light">
+        <a href="/discipline/add_discipline" class="btn btn-primary">Add new discipline</a>
+    </nav>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Team name</th>
+            <th scope="col">Matches</th>
+            <th scope="col">Fouls Won</th>
+            <th scope="col">Fouls Conceded</th>
+            <th scope="col">Yellow Cards</th>
+            <th scope="col">Red Cards</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Update</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          
+            {% for team in teams %}
+            <tr>
+                <td>{{ team.team_name }}</td>
+                <td>{{ team.matches }}</td>
+                <td>{{ team.fouls_won }}</td>
+                <td>{{ team.fouls_conceded}}</td>
+                <td>{{ team.yellow_cards }}</td>
+                <td>{{ team.red_cards}}</td>
+                
+                <td><a href="/delete/{{ task.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
+
+               
+                <td><a href="/edit/{{ task.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
+
+            </tr>
+            {% endfor %}
+
+            
+        </tbody>
+      </table>
+</div>
+{% endblock main %}
