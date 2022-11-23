@@ -1,0 +1,5 @@
+23/11/2022 I edited the server.py and form_classes.py file. 
+I am responsible for Goals and Goal Type tables.
+I made the frontend part of the pages about viewing these two tables and adding data. 
+
+In summary, I did the my part's frontend.
