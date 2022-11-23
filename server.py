@@ -101,5 +101,46 @@ def goal_type_add():
         return render_template("goal-type/goal-type-add.html", form=form) 
 
 
+
+
+@app.route("/defence")
+def defence():
+   return render_template("defence/defence.html")
+
+
+
+@app.route("/defence/add_defence", methods=["GET","POST"])
+def add_defence():
+    form = DefenceForm(request.form)
+
+    if request.method == "POST" and form.validate(): 
+        pass
+    
+    else:
+        return render_template("defence/add_defence.html", form=form)
+
+
+
+
+@app.route("/discipline")
+def discipline():
+   return render_template("discipline/discipline.html")
+
+
+
+@app.route("/discipline/discipline", methods=["GET","POST"])
+def add_discipline():
+    form = DisciplineForm(request.form)
+
+    if request.method == "POST" and form.validate(): 
+        pass
+    
+    else:
+        return render_template("discipline/add_discipline.html", form=form)
+
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

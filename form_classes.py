@@ -43,3 +43,20 @@ class GoalTypeForm(Form):
    penalties = IntegerField("Penalties: ", validators=[validators.DataRequired()])
 
 
+class DefenceForm(Form):
+   team_name = StringField("Team name:", validators=[validators.DataRequired()])
+   saves_made = IntegerField("Saves Made: ", validators=[validators.DataRequired()])
+   blocks = IntegerField("Blocks: ", validators=[validators.DataRequired()])
+   total_clearences = IntegerField("Total Clearences: ", validators=[validators.DataRequired()])
+   interceptions = IntegerField("Interceptions: ", validators=[validators.DataRequired()])
+   recoveries = IntegerField("Recoveries: ", validators=[validators.DataRequired()])
+   goals_conceded = IntegerField("Goals Conceded: ", validators=[validators.DataRequired()])
+
+class DisciplineForm(Form):
+   team_name = StringField("Team name:", validators=[validators.DataRequired()])
+   matches = IntegerField("Matches: ", validators=[validators.DataRequired()])
+   fouls_won = IntegerField("Fouls Won: ", validators=[validators.DataRequired()])
+   fouls_conceded =IntegerField("Fouls Conceded: ", validators=[validators.DataRequired()])
+   yellow_cards = IntegerField("Yellow Cards: ", validators=[validators.DataRequired()])
+   red_cards = IntegerField("Red Cards: ", validators=[validators.DataRequired()])
+
