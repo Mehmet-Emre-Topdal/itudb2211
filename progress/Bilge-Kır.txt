@@ -1,0 +1,7 @@
+23.11.2022
+I am responsible for Defence and Discipline tables.
+I made the frontend part of the pages about viewing these two tables and adding data.
+There was a problem with the defence folder and I fixed it. 
+I edited the server.py and form_classes.py file, added my own parts. 
+
+In summary, I did the my part's frontend.
