@@ -12,6 +12,7 @@
     <table class="table">
         <thead>
           <tr>
+            <th scope="col">Team id</th>
             <th scope="col">Team name</th>
             <th scope="col">Matches</th>
             <th scope="col">Total Goals</th>
@@ -24,21 +25,27 @@
           </tr>
         </thead>
         <tbody>
+          {% for team in teams %}
+          <tr>
+              <td>{{ team.team_id }}</td>
+              <td>{{ team.team_name }}</td>
+              <td>{{ team.matches }}</td>
+              <td>{{ team.total_goals }}</td>
+              <td>{{ team.average_goals}}</td>
+              <td>{{ team.goals_conceded }}</td>
+              <td>{{ team.average_conceded }}</td>
+              <td>{{ team.goal_difference }}</td>
+              
+              <td><a href="/goals/delete/{{ task.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
+
+             
+              <td><a href="/goals/edit/{{ task.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
+
+          </tr>
+          {% endfor %}
 
           
-            {% for team in teams %}
-            <tr>
-              
-                <td><a href="/delete/{{ task.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
-
-               
-                <td><a href="/edit/{{ task.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
-
-            </tr>
-            {% endfor %}
-
-            
-        </tbody>
-      </table>
+      </tbody>
+    </table>
 </div>
 {% endblock main %}

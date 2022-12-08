@@ -25,6 +25,7 @@ class AttemptsForm(Form):
    attempts_blocked = IntegerField("Attempts Blocked: ", validators=[validators.DataRequired()])
 
 class GoalsForm(Form):
+   team_id = IntegerField("id:",validators=[validators.DataRequired()])
    team_name = StringField("Team name:", validators=[validators.DataRequired()])
    matches = IntegerField("Matches: ", validators=[validators.DataRequired()])
    total_goals = IntegerField("Total Goals: ", validators=[validators.DataRequired()])
@@ -34,6 +35,7 @@ class GoalsForm(Form):
    goal_difference = IntegerField("Goal Difference: ", validators=[validators.DataRequired()])
 
 class GoalTypeForm(Form):
+   team_id = IntegerField("id:",validators=[validators.DataRequired()])
    team_name = StringField("Team name:", validators=[validators.DataRequired()])
    goals = IntegerField("Goals: ", validators=[validators.DataRequired()])
    left_foot = IntegerField("Left Foot: ", validators=[validators.DataRequired()])

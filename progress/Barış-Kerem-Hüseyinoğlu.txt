@@ -4,3 +4,6 @@ I am responsible for Goals and Goal Type tables.
 I made the frontend part of the pages about viewing these two tables and adding data. 
 
 In summary, I did the my part's frontend.
+09/12/2022
+i edited the server.py ,goals.html and goal-type.html
+i created goals-update.html and goal-type-update.html
