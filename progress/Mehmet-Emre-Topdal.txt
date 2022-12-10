@@ -5,3 +5,5 @@ I made the frontend part of the pages about viewing these three tables and addin
 After connecting with the database, I will also implement the edit and delete functions. 
 
 In summary, I did the frontend work that I needed to do.
+
+10/12/2022 I added python/flask codes, new templates for editing data and edit some page templates. My code part of the project is finished. We need to make adjustments to the database file and related. After that, the project will be completely finished.
