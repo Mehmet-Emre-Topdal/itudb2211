@@ -27,17 +27,17 @@
           
             {% for team in teams %}
             <tr>
-                <td>{{ team.team_name }}</td>
+                <td>{{ team.team }}</td>
                 <td>{{ team.matches }}</td>
-                <td>{{ team.total_corners }}</td>
-                <td>{{ team.average_corners}}</td>
-                <td>{{ team.crosses-attempted }}</td>
-                <td>{{ team.crossing_accuracy }}</td>
+                <td>{{ team.totalCorners }}</td>
+                <td>{{ team.averageCorners}}</td>
+                <td>{{ team.crossesAttempted }}</td>
+                <td>{{ team.crossingAccuracy }}</td>
                 
-                <td><a href="/delete/{{ task.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
+                <td><a href="/delete_attack/{{ team.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
 
                
-                <td><a href="/edit/{{ task.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
+                <td><a href="/edit_attack/{{ team.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
 
             </tr>
             {% endfor %}

@@ -27,17 +27,17 @@
           
             {% for team in teams %}
             <tr>
-                <td>{{ team.team_name }}</td>
+                <td>{{ team.team }}</td>
                 <td>{{ team.matches }}</td>
                 <td>{{ team.attempts }}</td>
-                <td>{{ team.attempts_on_target}}</td>
-                <td>{{ team.attempts_off_target }}</td>
-                <td>{{ team.attempts_blocked }}</td>
+                <td>{{ team.attemptsOnTarget}}</td>
+                <td>{{ team.attemptsOffTarget }}</td>
+                <td>{{ team.attemptsBlocked }}</td>
                 
-                <td><a href="/delete/{{ task.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
+                <td><a href="/delete_attempts/{{ team.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
 
                
-                <td><a href="/edit/{{ task.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
+                <td><a href="/edit_attempts/{{ team.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
 
             </tr>
             {% endfor %}

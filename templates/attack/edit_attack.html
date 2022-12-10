@@ -6,11 +6,16 @@
 
 <div class="p-5 h-100 w-100 d-flex align-items-center justify-content-center flex-column">
 
-    <h2>Add New Team</h2>
+    <h2>Edit Attack</h2>
     
     <form method="post" class="w-50">
 
         {{ render_field(form.team_name, class="form-control w-100") }}
+        {{ render_field(form.matches, class="form-control w-100") }}
+        {{ render_field(form.total_corners, class="form-control w-100") }}
+        {{ render_field(form.average_corners, class="form-control w-100") }}
+        {{ render_field(form.crosses_attempted, class="form-control w-100") }}
+        {{ render_field(form.crossing_accuracy, class="form-control w-100") }}
 
         <button type="submit" class="btn btn-primary">Submit</button>
 

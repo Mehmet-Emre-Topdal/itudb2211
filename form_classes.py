@@ -5,8 +5,7 @@ from wtforms import Form,StringField,validators,IntegerField,DecimalField
 
 class TeamsForm(Form):
    team_name = StringField("Team name:", validators=[validators.DataRequired()])
-   coach = StringField("Coach",validators=[validators.DataRequired()])
-   stadium = StringField("Stadium",validators=[validators.DataRequired()])
+
 
 class AttackForm(Form):
    team_name = StringField("Team name:", validators=[validators.DataRequired()])
