@@ -7,3 +7,5 @@ In summary, I did the my part's frontend.
 09/12/2022
 i edited the server.py ,goals.html and goal-type.html
 i created goals-update.html and goal-type-update.html
+16/12/2022
+i edited server.py for final changes for my part

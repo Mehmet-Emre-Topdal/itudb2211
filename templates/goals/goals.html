@@ -12,7 +12,6 @@
     <table class="table">
         <thead>
           <tr>
-            <th scope="col">Team id</th>
             <th scope="col">Team name</th>
             <th scope="col">Matches</th>
             <th scope="col">Total Goals</th>
@@ -27,7 +26,6 @@
         <tbody>
           {% for team in teams %}
           <tr>
-              <td>{{ team.team_id }}</td>
               <td>{{ team.team_name }}</td>
               <td>{{ team.matches }}</td>
               <td>{{ team.total_goals }}</td>

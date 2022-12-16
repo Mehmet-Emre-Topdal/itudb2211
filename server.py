@@ -305,19 +305,51 @@ def edit_attack(id):
 
 @app.route("/goals")
 def goals():
-   return render_template("goals/goals.html")
+    with sql.connect("database.db") as con:
+        con.row_factory = sql.Row
+        cursor=con.cursor()
+
+        query=""" SELECT * FROM GOALS """
+
+        cursor.execute(query)
+
+        teams = cursor.fetchall()
+    return render_template("goals/goals.html",teams=teams)
 
 @app.route("/goal-type")
 def goal_type():
-   return render_template("goal-type/goal-type.html")
+    with sql.connect("database.db") as con:
+        con.row_factory = sql.Row
+        cursor=con.cursor()
+
+        query=""" SELECT * FROM GOAL-TYPE """
+
+        cursor.execute(query)
+
+        teams = cursor.fetchall()
+    return render_template("goal-type/goal-type.html",teams=teams)
 
 @app.route("/goals/goals-add", methods=["GET","POST"])
 def goals_add():
     form = GoalsForm(request.form)
 
     if request.method == "POST" and form.validate(): 
-        pass
-    
+        TeamName = form.team_name.data
+        Matches = form.matches.data
+        TotalGoals = form.total_goals.data
+        AverageGoals = form.average_goals.data
+        GoalsConceded = form.goals_conceded.data
+        AverageConceded = form.average_conceded.data
+        GoalDifference = form.goal_difference.data
+        with sql.connect("database.db") as con:
+            cursor=con.cursor()
+            query = "INSERT INTO GOALS (team,matches,totalgoals,averagegoals,goalsconceded,averageconceded,goaldifference) VALUES (?,?,?,?,?,?,?)"
+
+            cursor.execute(query,(TeamName,Matches,TotalGoals,AverageGoals,GoalsConceded,AverageConceded,GoalDifference))
+            con.commit()
+
+            cursor.close()
+        return redirect(url_for("goals"))
     else:
         return render_template("goals/goals-add.html", form=form)
 
@@ -326,98 +358,137 @@ def goal_type_add():
     form = GoalTypeForm(request.form)
 
     if request.method == "POST" and form.validate(): 
-        pass
-    
+        TeamName = form.team_name.data
+        Goals = form.goals.data
+        LeftFoot = form.left_foot.data
+        RightFoot = form.right_foot.data
+        Header = form.header.data
+        OwnGoals = form.own_goals.data
+        Penalties = form.penalties.data
+        with sql.connect("database.db") as con:
+            cursor=con.cursor()
+            query = "INSERT INTO GOAL-TYPE (team,goals,leftfoot,rightfoot,header,owngoals,penalties) VALUES (?,?,?,?,?,?,?)"
+
+            cursor.execute(query,(TeamName,Goals,LeftFoot,RightFoot,Header,OwnGoals,Penalties))
+            con.commit()
+
+            cursor.close()
+        return redirect(url_for("goal-type"))
     else:
         return render_template("goal-type/goal-type-add.html", form=form) 
 
+
 @app.route("/goal-type/delete/<string:id>")
 def delete(id):
+    
+    with sql.connect("database.db") as con:
+       cursor=con.cursor()
+
+       query = "DELETE FROM GOAL-TYPE WHERE id = ?" 
+
+       cursor.execute(query,(id))
+
+       con.commit() 
+
    
-   return redirect(url_for("goal-type"))
+    return redirect(url_for("goal-type"))
+
+
 @app.route("/goals/delete/<string:id>")
 def delete(id):
+    with sql.connect("database.db") as con:
+       cursor=con.cursor()
+
+       query = "DELETE FROM GOALS WHERE id = ?" 
+
+       cursor.execute(query,(id))
+
+       con.commit() 
    
-   return redirect(url_for("goals"))
+    return redirect(url_for("goals"))
+
+
 @app.route("goal-type/edit/<string:id>",methods = ["GET","POST"])
 def update(id):
 
    if request.method == "GET":      
-      updateForm = GoalTypeForm()
+       updateForm = GoalTypeForm()
 
-    #  with sqlite.connect("tasks.sqlite") as con:
-    #    con.row_factory = sqlite.Row
-    #     cur=con.cursor()
-    #     query = """ SELECT teamname,goals,leftfoot,rightfoot,header,owngoals,penalties from goaltype WHERE (ID = {})""".format(id)
-    #     cur.execute(query)
-    #     row = cur.fetchone()
+       with sql.connect("tasks.sqlite") as con:
+            con.row_factory = sql.Row
+            cur=con.cursor()
+            query = "SELECT * FROM GOAL-TYPE WHERE (id = ?)"
+            cur.execute(query,(id))
+            row = cur.fetchone()
 
-    #  updateForm.team_name.data = row["Team Name"]
-    #  updateForm.goals.data = row["Goals"]
-    #  updateForm.left_foot.data = row["Left foot"]
-    #  updateForm.right_foot.data = row["Right foot"]
-    #  updateForm.header.data = row["Header"]
-    #  updateForm.own_goals.data = row["Own Goals"]
-    #  updateForm.penalties.data = row["Penalties"]
+            updateForm.team_name.data = row["team"]
+            updateForm.goals.data = row["goals"]
+            updateForm.left_foot.data = row["leftfoot"]
+            updateForm.right_foot.data = row["rightfoot"]
+            updateForm.header.data = row["header"]
+            updateForm.own_goals.data = row["owngoals"]
+            updateForm.penalties.data = row["penalties"]
 
-      return render_template("goal-type/goal-type-update.html", form=updateForm)
+       return render_template("goal-type/goal-type-update.html", form=updateForm)
 
    if request.method == "POST":
       updateForm = GoalTypeForm(request.form)
-      #newTeamname = updateForm.team_name.data
-      #newGoals = updateForm.goals.data
-      #newLeftFoot = updateForm.left_foot.data
-      #newRightFoot = updateForm.right_foot.data
-      #newHeader = updateForm.header.data
-      #newOwnGoals = updateForm.own_goals.data
-      #newPenalties = updateForm.penalties.data
+      newTeamName = updateForm.team_name.data
+      newGoals = updateForm.goals.data
+      newLeftFoot = updateForm.left_foot.data
+      newRightFoot = updateForm.right_foot.data
+      newHeader = updateForm.header.data
+      newOwnGoals = updateForm.own_goals.data
+      newPenalties = updateForm.penalties.data
 
-      #with sqlite.connect("tasks.sqlite") as con:
-      #   con.row_factory = sqlite.Row
-      #   cur=con.cursor()
-      #   query = """ UPDATE goaltype SET teamname = "{}", goals = {}, leftfoot = {}, rightfoot = {}, header = {}, owngoals = {}, penalties = {} WHERE (ID = {})""".format(newTeamName,newGoals,newLeftFoot,newRightFoot,newHeader,newOwnGoals,newPenalties,id)
-      #   cur.execute(query)
-      #   con.commit()
+      with sql.connect("tasks.sqlite") as con:
+          con.row_factory = sql.Row
+          cur=con.cursor()
+          query = "UPDATE GOAL-TYPE SET team = ?, goals = ?, leftfoot = ?, rightfoot = ?, header = ?, owngoals = ?, penalties = ? WHERE id = ?"
+          cur.execute(query,( newTeamName,newGoals,newLeftFoot,newRightFoot,newHeader,newOwnGoals,newPenalties,id))
+          con.commit()
       return redirect(url_for("goal-type"))
+
+      
 @app.route("goals/edit/<string:id>",methods = ["GET","POST"])
 def update(id):
 
    if request.method == "GET":      
       updateForm = GoalsForm()
 
-    #  with sqlite.connect("tasks.sqlite") as con:
-    #    con.row_factory = sqlite.Row
-    #     cur=con.cursor()
-    #     query = """ SELECT teamname,matches,totalgoals,averagegoals,goalsconceded,averageconceded,goaldifference from goals WHERE (ID = {})""".format(id)
-    #     cur.execute(query)
-    #     row = cur.fetchone()
+      with sql.connect("tasks.sqlite") as con:
+         con.row_factory = sql.Row
+         cur=con.cursor()
+         query = "SELECT * FROM GOALS WHERE (id = ?)"
+         cur.execute(query,(id))
+         row = cur.fetchone()
 
-    #  updateForm.team_name.data = row["Team Name"]
-    #  updateForm.matches.data = row["Matches"]
-    #  updateForm.total_goals.data = row["Total Goals"]
-    #  updateForm.average_goals.data = row["Average Goals"]
-    #  updateForm.goals_conceded.data = row["Goals Conceded"]
-    #  updateForm.average_conceded.data = row["Average Conceded"]
-    #  updateForm.goal_ifference.data = row["Goal Difference"]
+      updateForm.team_name.data = row["team"]
+      updateForm.matches.data = row["matches"]
+      updateForm.total_goals.data = row["totalgoals"]
+      updateForm.average_goals.data = row["averagegoals"]
+      updateForm.goals_conceded.data = row["goalsconceded"]
+      updateForm.average_conceded.data = row["averageconceded"]
+      updateForm.goal_difference.data = row["goaldifference"]
 
       return render_template("goals/goals-update.html", form=updateForm)
 
    if request.method == "POST":
       updateForm = GoalsForm(request.form)
-      #newTeamname = updateForm.team_name.data
-      #newMatches = updateForm.matches.data
-      #newTotalGoals = updateForm.total_goals.data
-      #newAverageGoals = updateForm.average_goals.data
-      #newGoalsConceded = updateForm.goals_conceded.data
-      #newAverageConceded = updateForm.average_conceded.data
-      #newGoalDifference = updateForm.goal_ifference.data
+      newTeamName = updateForm.team_name.data
+      newMatches = updateForm.matches.data
+      newTotalGoals = updateForm.total_goals.data
+      newAverageGoals = updateForm.average_goals.data
+      newGoalsConceded = updateForm.goals_conceded.data
+      newAverageConceded = updateForm.average_conceded.data
+      newGoalDifference = updateForm.goal_difference.data
 
-      #with sqlite.connect("tasks.sqlite") as con:
-      #   con.row_factory = sqlite.Row
-      #   cur=con.cursor()
-      #   query = """ UPDATE Tasks SET teamname = {},matches = {},totalgoals = {},averagegoals = {},goalsconceded = {},averageconceded = {},goaldifference = {} WHERE (ID = {})""".format(newTeamname,newMatches,newTotalGoals,newAverageGoals,newGoalsConceded,newAverageConceded,newGoalDifference,id)
-      #   cur.execute(query)
-      #   con.commit() 
+      with sql.connect("tasks.sqlite") as con:
+         con.row_factory = sql.Row
+         cur=con.cursor()
+         query = "UPDATE Tasks SET team = ?,matches = ?,totalgoals = ?,averagegoals = ?,goalsconceded = ?,averageconceded = ?,goaldifference = ? WHERE id = ?"
+         cur.execute(query,(newTeamName,newMatches,newTotalGoals,newAverageGoals,newGoalsConceded,newAverageConceded,newGoalDifference,id))
+         con.commit() 
       return redirect(url_for("goals"))
       
 
