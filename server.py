@@ -414,7 +414,7 @@ def update(id):
    if request.method == "GET":      
        updateForm = GoalTypeForm()
 
-       with sql.connect("tasks.sqlite") as con:
+       with sql.connect("database.db") as con:
             con.row_factory = sql.Row
             cur=con.cursor()
             query = "SELECT * FROM GOAL-TYPE WHERE (id = ?)"
@@ -441,7 +441,7 @@ def update(id):
       newOwnGoals = updateForm.own_goals.data
       newPenalties = updateForm.penalties.data
 
-      with sql.connect("tasks.sqlite") as con:
+      with sql.connect("database.db") as con:
           con.row_factory = sql.Row
           cur=con.cursor()
           query = "UPDATE GOAL-TYPE SET team = ?, goals = ?, leftfoot = ?, rightfoot = ?, header = ?, owngoals = ?, penalties = ? WHERE id = ?"
@@ -456,7 +456,7 @@ def update(id):
    if request.method == "GET":      
       updateForm = GoalsForm()
 
-      with sql.connect("tasks.sqlite") as con:
+      with sql.connect("database.db") as con:
          con.row_factory = sql.Row
          cur=con.cursor()
          query = "SELECT * FROM GOALS WHERE (id = ?)"
@@ -483,7 +483,7 @@ def update(id):
       newAverageConceded = updateForm.average_conceded.data
       newGoalDifference = updateForm.goal_difference.data
 
-      with sql.connect("tasks.sqlite") as con:
+      with sql.connect("database.db") as con:
          con.row_factory = sql.Row
          cur=con.cursor()
          query = "UPDATE Tasks SET team = ?,matches = ?,totalgoals = ?,averagegoals = ?,goalsconceded = ?,averageconceded = ?,goaldifference = ? WHERE id = ?"
