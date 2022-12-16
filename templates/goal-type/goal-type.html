@@ -26,18 +26,18 @@
         <tbody>        
           {% for team in teams %}
           <tr>
-              <td>{{ team.team_name }}</td>
+              <td>{{ team.team }}</td>
               <td>{{ team.goals }}</td>
-              <td>{{ team.left_foot }}</td>
-              <td>{{ team.right_foot}}</td>
+              <td>{{ team.leftFoot }}</td>
+              <td>{{ team.rightFoot}}</td>
               <td>{{ team.header }}</td>
-              <td>{{ team.own_goals }}</td>
-              <td>{{ team.penalties }}</td>
+              <td>{{ team.ownGoal }}</td>
+              <td>{{ team.Penalties }}</td>
               
-              <td><a href="/goal-type/delete/{{ task.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
+              <td><a href="/delete_goal_type/{{ team.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
 
              
-              <td><a href="/goal-type/edit/{{ task.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
+              <td><a href="/edit_goal_type/{{ team.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
 
           </tr>
           {% endfor %}

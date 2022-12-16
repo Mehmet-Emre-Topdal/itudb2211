@@ -27,9 +27,9 @@ class GoalsForm(Form):
    team_name = StringField("Team name:", validators=[validators.DataRequired()])
    matches = IntegerField("Matches: ", validators=[validators.DataRequired()])
    total_goals = IntegerField("Total Goals: ", validators=[validators.DataRequired()])
-   average_goals = IntegerField("Average Goals: ", validators=[validators.DataRequired()])
+   average_goals = DecimalField("Average Goals: ", validators=[validators.DataRequired()])
    goals_conceded =IntegerField("Goals Conceded: ", validators=[validators.DataRequired()])
-   average_conceded = IntegerField("Average Conceded: ", validators=[validators.DataRequired()])
+   average_conceded = DecimalField("Average Conceded: ", validators=[validators.DataRequired()])
    goal_difference = IntegerField("Goal Difference: ", validators=[validators.DataRequired()])
 
 class GoalTypeForm(Form):

@@ -345,8 +345,8 @@ def edit_attack(id):
 
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+#if __name__ == "__main__":
+#    app.run(debug=True)
 
 
 
@@ -357,12 +357,14 @@ def goals():
     with sql.connect("database.db") as con:
         con.row_factory = sql.Row
         cursor=con.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
 
         query=""" SELECT * FROM GOALS """
 
         cursor.execute(query)
 
         teams = cursor.fetchall()
+
     return render_template("goals/goals.html",teams=teams)
 
 @app.route("/goal-type")
@@ -370,6 +372,7 @@ def goal_type():
     with sql.connect("database.db") as con:
         con.row_factory = sql.Row
         cursor=con.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
 
         query=""" SELECT * FROM GOALTYPE """
 
@@ -390,14 +393,19 @@ def goals_add():
         GoalsConceded = form.goals_conceded.data
         AverageConceded = form.average_conceded.data
         GoalDifference = form.goal_difference.data
-        with sql.connect("database.db") as con:
-            cursor=con.cursor()
-            query = "INSERT INTO GOALS (team,matches,totalgoals,averagegoals,goalsconceded,averageconceded,goaldifference) VALUES (?,?,?,?,?,?,?)"
 
-            cursor.execute(query,(TeamName,Matches,TotalGoals,AverageGoals,GoalsConceded,AverageConceded,GoalDifference))
+        con = sql.connect("database.db")
+        try:
+            cursor=con.cursor()
+            query = "INSERT INTO GOALS (team,matches,totalGoals,averageGoals,goalsConceded,averageConceded,goalDifference) VALUES (?,?,?,?,?,?,?)"
+            cursor.execute("PRAGMA foreign_keys = ON")
+            cursor.execute(query,(TeamName,Matches,TotalGoals,float(AverageGoals),GoalsConceded,float(AverageConceded),GoalDifference))
             con.commit()
 
             cursor.close()
+        except:
+            con.rollback()
+            return redirect(url_for("error"))
         return redirect(url_for("goals"))
     else:
         return render_template("goals/goals-add.html", form=form)
@@ -414,25 +422,29 @@ def goal_type_add():
         Header = form.header.data
         OwnGoals = form.own_goals.data
         Penalties = form.penalties.data
-        with sql.connect("database.db") as con:
+        con = sql.connect("database.db")
+        try:
             cursor=con.cursor()
-            query = "INSERT INTO GOALTYPE (team,goals,leftfoot,rightfoot,header,owngoals,penalties) VALUES (?,?,?,?,?,?,?)"
-
+            query = "INSERT INTO GOALTYPE (team,goals,leftFoot,rightFoot,header,ownGoal,Penalties) VALUES (?,?,?,?,?,?,?)"
+            cursor.execute("PRAGMA foreign_keys = ON")
             cursor.execute(query,(TeamName,Goals,LeftFoot,RightFoot,Header,OwnGoals,Penalties))
             con.commit()
 
             cursor.close()
-        return redirect(url_for("goal-type"))
+        except:
+            con.rollback()
+            return redirect(url_for("error"))
+        return redirect(url_for("goal_type"))
     else:
         return render_template("goal-type/goal-type-add.html", form=form) 
 
 
-@app.route("/goal-type/delete/<string:id>")
-def delete(id):
+@app.route("/delete_goal_type/<string:id>")
+def delete_goal_type(id):
     
     with sql.connect("database.db") as con:
        cursor=con.cursor()
-
+       cursor.execute("PRAGMA foreign_keys = ON")
        query = "DELETE FROM GOALTYPE WHERE id = ?" 
 
        cursor.execute(query,(id))
@@ -440,14 +452,14 @@ def delete(id):
        con.commit() 
 
    
-    return redirect(url_for("goal-type"))
+    return redirect(url_for("goal_type"))
 
 
-@app.route("/goals/delete/<string:id>")
-def delete(id):
+@app.route("/delete_goals/<string:id>")
+def delete_goals(id):
     with sql.connect("database.db") as con:
        cursor=con.cursor()
-
+       cursor.execute("PRAGMA foreign_keys = ON")
        query = "DELETE FROM GOALS WHERE id = ?" 
 
        cursor.execute(query,(id))
@@ -457,8 +469,8 @@ def delete(id):
     return redirect(url_for("goals"))
 
 
-@app.route("goal-type/edit/<string:id>",methods = ["GET","POST"])
-def update(id):
+@app.route("/edit_goal_type/<string:id>",methods = ["GET","POST"])
+def edit_goal_type(id):
 
    if request.method == "GET":      
        updateForm = GoalTypeForm()
@@ -466,17 +478,18 @@ def update(id):
        with sql.connect("database.db") as con:
             con.row_factory = sql.Row
             cur=con.cursor()
+            cur.execute("PRAGMA foreign_keys = ON")
             query = "SELECT * FROM GOALTYPE WHERE (id = ?)"
             cur.execute(query,(id))
             row = cur.fetchone()
 
             updateForm.team_name.data = row["team"]
             updateForm.goals.data = row["goals"]
-            updateForm.left_foot.data = row["leftfoot"]
-            updateForm.right_foot.data = row["rightfoot"]
+            updateForm.left_foot.data = row["leftFoot"]
+            updateForm.right_foot.data = row["rightFoot"]
             updateForm.header.data = row["header"]
-            updateForm.own_goals.data = row["owngoals"]
-            updateForm.penalties.data = row["penalties"]
+            updateForm.own_goals.data = row["owngoal"]
+            updateForm.penalties.data = row["Penalties"]
 
        return render_template("goal-type/goal-type-update.html", form=updateForm)
 
@@ -490,55 +503,69 @@ def update(id):
       newOwnGoals = updateForm.own_goals.data
       newPenalties = updateForm.penalties.data
 
-      with sql.connect("database.db") as con:
+      con = sql.connect("database.db")
+
+      try:
           con.row_factory = sql.Row
           cur=con.cursor()
-          query = "UPDATE GOALTYPE SET team = ?, goals = ?, leftfoot = ?, rightfoot = ?, header = ?, owngoals = ?, penalties = ? WHERE id = ?"
+          cur.execute("PRAGMA foreign_keys = ON")
+          query = "UPDATE GOALTYPE SET team = ?, goals = ?, leftFoot = ?, rightFoot = ?, header = ?, ownGoal = ?, Penalties = ? WHERE id = ?"
           cur.execute(query,( newTeamName,newGoals,newLeftFoot,newRightFoot,newHeader,newOwnGoals,newPenalties,id))
           con.commit()
-      return redirect(url_for("goal-type"))
+          cur.close()
+      except:
+          con.rollback()
+          return redirect(url_for("error")) 
+      return redirect(url_for("goal_type"))
 
       
-@app.route("goals/edit/<string:id>",methods = ["GET","POST"])
-def update(id):
+@app.route("/edit_goals/<string:id>",methods = ["GET","POST"])
+def edit_goals(id):
 
-   if request.method == "GET":      
-      updateForm = GoalsForm()
+    if request.method == "GET":      
+        updateForm = GoalsForm()
 
-      with sql.connect("database.db") as con:
-         con.row_factory = sql.Row
-         cur=con.cursor()
-         query = "SELECT * FROM GOALS WHERE (id = ?)"
-         cur.execute(query,(id))
-         row = cur.fetchone()
+        with sql.connect("database.db") as con:
+            con.row_factory = sql.Row
+            cur=con.cursor()
+            cur.execute("PRAGMA foreign_keys = ON")
+            query = "SELECT * FROM GOALS WHERE (id = ?)"
+            cur.execute(query,(id))
+            row = cur.fetchone()
 
-      updateForm.team_name.data = row["team"]
-      updateForm.matches.data = row["matches"]
-      updateForm.total_goals.data = row["totalgoals"]
-      updateForm.average_goals.data = row["averagegoals"]
-      updateForm.goals_conceded.data = row["goalsconceded"]
-      updateForm.average_conceded.data = row["averageconceded"]
-      updateForm.goal_difference.data = row["goaldifference"]
+            updateForm.team_name.data = row["team"]
+            updateForm.matches.data = row["matches"]
+            updateForm.total_goals.data = row["totalgoals"]
+            updateForm.average_goals.data = row["averagegoals"]
+            updateForm.goals_conceded.data = row["goalsconceded"]
+            updateForm.average_conceded.data = row["averageconceded"]
+            updateForm.goal_difference.data = row["goaldifference"]
 
-      return render_template("goals/goals-update.html", form=updateForm)
+        return render_template("goals/goals-update.html", form=updateForm)
 
-   if request.method == "POST":
-      updateForm = GoalsForm(request.form)
-      newTeamName = updateForm.team_name.data
-      newMatches = updateForm.matches.data
-      newTotalGoals = updateForm.total_goals.data
-      newAverageGoals = updateForm.average_goals.data
-      newGoalsConceded = updateForm.goals_conceded.data
-      newAverageConceded = updateForm.average_conceded.data
-      newGoalDifference = updateForm.goal_difference.data
+    if request.method == "POST":
+        updateForm = GoalsForm(request.form)
+        newTeamName = updateForm.team_name.data
+        newMatches = updateForm.matches.data
+        newTotalGoals = updateForm.total_goals.data
+        newAverageGoals = updateForm.average_goals.data
+        newGoalsConceded = updateForm.goals_conceded.data
+        newAverageConceded = updateForm.average_conceded.data
+        newGoalDifference = updateForm.goal_difference.data
+        con = sql.connect("database.db")
 
-      with sql.connect("database.db") as con:
-         con.row_factory = sql.Row
-         cur=con.cursor()
-         query = "UPDATE Tasks SET team = ?,matches = ?,totalgoals = ?,averagegoals = ?,goalsconceded = ?,averageconceded = ?,goaldifference = ? WHERE id = ?"
-         cur.execute(query,(newTeamName,newMatches,newTotalGoals,newAverageGoals,newGoalsConceded,newAverageConceded,newGoalDifference,id))
-         con.commit() 
-      return redirect(url_for("goals"))
+        try:
+            con.row_factory = sql.Row
+            cur=con.cursor()
+            cur.execute("PRAGMA foreign_keys = ON")
+            query = "UPDATE GOALS SET team = ?,matches = ?,totalgoals = ?,averagegoals = ?,goalsconceded = ?,averageconceded = ?,goaldifference = ? WHERE id = ?"
+            cur.execute(query,(newTeamName,newMatches,newTotalGoals,float(newAverageGoals),newGoalsConceded,float(newAverageConceded),newGoalDifference,id))
+            con.commit() 
+            con.close()
+        except:
+            con.rollback()
+            return redirect(url_for("error"))
+        return redirect(url_for("goals"))
       
 
 
