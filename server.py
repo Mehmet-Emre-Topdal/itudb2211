@@ -322,7 +322,7 @@ def goal_type():
         con.row_factory = sql.Row
         cursor=con.cursor()
 
-        query=""" SELECT * FROM GOAL-TYPE """
+        query=""" SELECT * FROM GOALTYPE """
 
         cursor.execute(query)
 
@@ -367,7 +367,7 @@ def goal_type_add():
         Penalties = form.penalties.data
         with sql.connect("database.db") as con:
             cursor=con.cursor()
-            query = "INSERT INTO GOAL-TYPE (team,goals,leftfoot,rightfoot,header,owngoals,penalties) VALUES (?,?,?,?,?,?,?)"
+            query = "INSERT INTO GOALTYPE (team,goals,leftfoot,rightfoot,header,owngoals,penalties) VALUES (?,?,?,?,?,?,?)"
 
             cursor.execute(query,(TeamName,Goals,LeftFoot,RightFoot,Header,OwnGoals,Penalties))
             con.commit()
@@ -384,7 +384,7 @@ def delete(id):
     with sql.connect("database.db") as con:
        cursor=con.cursor()
 
-       query = "DELETE FROM GOAL-TYPE WHERE id = ?" 
+       query = "DELETE FROM GOALTYPE WHERE id = ?" 
 
        cursor.execute(query,(id))
 
@@ -417,7 +417,7 @@ def update(id):
        with sql.connect("database.db") as con:
             con.row_factory = sql.Row
             cur=con.cursor()
-            query = "SELECT * FROM GOAL-TYPE WHERE (id = ?)"
+            query = "SELECT * FROM GOALTYPE WHERE (id = ?)"
             cur.execute(query,(id))
             row = cur.fetchone()
 
@@ -444,7 +444,7 @@ def update(id):
       with sql.connect("database.db") as con:
           con.row_factory = sql.Row
           cur=con.cursor()
-          query = "UPDATE GOAL-TYPE SET team = ?, goals = ?, leftfoot = ?, rightfoot = ?, header = ?, owngoals = ?, penalties = ? WHERE id = ?"
+          query = "UPDATE GOALTYPE SET team = ?, goals = ?, leftfoot = ?, rightfoot = ?, header = ?, owngoals = ?, penalties = ? WHERE id = ?"
           cur.execute(query,( newTeamName,newGoals,newLeftFoot,newRightFoot,newHeader,newOwnGoals,newPenalties,id))
           con.commit()
       return redirect(url_for("goal-type"))
