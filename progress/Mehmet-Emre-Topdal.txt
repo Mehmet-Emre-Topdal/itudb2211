@@ -6,4 +6,11 @@ After connecting with the database, I will also implement the edit and delete fu
 
 In summary, I did the frontend work that I needed to do.
 
-10/12/2022 I added python/flask codes, new templates for editing data and edit some page templates. My code part of the project is finished. We need to make adjustments to the database file and related. After that, the project will be completely finished.
+10/12/2022 I added python/flask codes, new templates for editing data and edit some page templates.
+My code part of the project is finished. We need to make adjustments to the database file and related. 
+After that, the project will be completely finished.
+
+16.12.2022 Today I dealt with foreign keys. I've added the relevant error handling logic. When the application gives an error,
+it will go to the error.html page. For foreign keys to work properly, I edited the database file and 
+added UNIQUE conditions to the relevant sections. It seems like my part of the project is finished. 
+If there is a problem during the testing phase, I can make adjustments again, but for now I have finished what I need to do.
