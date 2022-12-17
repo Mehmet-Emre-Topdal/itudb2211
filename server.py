@@ -571,6 +571,17 @@ def edit_goals(id):
 
 @app.route("/defence")
 def defence():
+    with sql.connect("database.db") as con:
+        con.row_factory = sql.Row
+        cursor=con.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
+
+        query=""" SELECT * FROM DEFENCE """
+
+        cursor.execute(query)
+
+        teams = cursor.fetchall()
+
    return render_template("defence/defence.html")
 
 
@@ -580,30 +591,216 @@ def add_defence():
     form = DefenceForm(request.form)
 
     if request.method == "POST" and form.validate(): 
-        pass
+        team_name = form.team_name.data
+        saves_made = form.saves_made.data
+        blocks = form.blocks.data
+        total_clearances = form.total_clearances.data
+        interceptions = form.interceptions.data
+        recoveries = form.recoveries.data
+        goals_conceded = form.goals_conceded.data
+
+        con = sql.connect("database.db") 
+        try:
+            cursor=con.cursor()
+            query = "INSERT INTO DEFENCE (team,savesMade,blocks,totalClearances,interceptions,recoveries,GoalsConceded) VALUES (?,?,?,?,?,?,?)"
+            cursor.execute("PRAGMA foreign_keys = ON")
+            cursor.execute(query,(team_name,saves_made,blocks,total_clearances,interceptions,recoveries,goals_conceded))
+
+            if cursor.lastrowid == 0:
+                return render_template("index.html")
+
+            con.commit()  
+
+            cursor.close() 
+
+        except:
+            con.rollback()
+            return redirect(url_for("error"))
+
+        return redirect(url_for("defence"))
     
     else:
         return render_template("defence/add_defence.html", form=form)
 
 
+@app.route("/delete_defence/<string:id>")
+def delete_defence(id):
+
+    with sql.connect("database.db") as con:
+       cursor=con.cursor()
+       cursor.execute("PRAGMA foreign_keys = ON") 
+       query = "DELETE FROM DEFENCE WHERE id = ?" 
+
+       cursor.execute(query,(id,))
+
+       con.commit() 
+
+    return redirect(url_for("defence"))
+
+
+@app.route("/edit_defence/<string:id>", methods=["GET","POST"])
+def edit_defence(id):
+
+    if request.method == "GET":
+        form = DefenceForm()
+
+        with sql.connect("database.db") as con:
+            con.row_factory = sql.Row
+            cur=con.cursor()
+            cur.execute("PRAGMA foreign_keys = ON")
+            query = "SELECT * FROM DEFENCE WHERE (id = ?)"
+            cur.execute(query,(id,))
+
+            team = cur.fetchone()
+
+            form.team_name.data = team["team"]
+            form.saves_made.data = team["savesMade"]
+            form.blocks.data = team["blocks"]
+            form.total_clearances.data = team["totalClearances"]
+            form.interceptions.data = team["interceptions"]
+            form.recoveries.data = team["recoveries"]
+            form.goals_conceded.data = team["GoalsConceded"]
+
+        return render_template("defence/edit_defence.html", form=form)
+
+    if request.method == "POST":
+        team_name = form.team_name.data
+        saves_made = form.saves_made.data
+        blocks = form.blocks.data
+        total_clearances = form.total_clearances.data
+        interceptions = form.interceptions.data
+        recoveries = form.recoveries.data
+        goals_conceded = form.goals_conceded.data
+
+        con = sql.connect("database.db")
+
+        try:
+            con.row_factory = sql.Row
+            cur=con.cursor()
+            cur.execute("PRAGMA foreign_keys = ON")
+            query = "UPDATE DEFENCE SET team = ?, savesMade = ?, blocks = ?, totalClearances = ?, interceptions = ?, recoveries = ?, GoalsConceded = ?  WHERE id = ?"
+            cur.execute(query,(team_name,saves_made,blocks,total_clearances,interceptions,recoveries,goals_conceded,  id))
+            con.commit()
+            cur.close()
+        except:
+            con.rollback()
+            return redirect(url_for("error"))            
+        
+        
+        return redirect(url_for("defence"))
+
 
 
 @app.route("/discipline")
 def discipline():
+    with sql.connect("database.db") as con:
+        con.row_factory = sql.Row
+        cursor=con.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
+        query=""" SELECT * FROM DISCIPLINE """
+
+        cursor.execute(query)
+
+        teams = cursor.fetchall()
+
    return render_template("discipline/discipline.html")
 
 
 
-@app.route("/discipline/discipline", methods=["GET","POST"])
+@app.route("/discipline/add_discipline", methods=["GET","POST"])
 def add_discipline():
     form = DisciplineForm(request.form)
 
     if request.method == "POST" and form.validate(): 
-        pass
+        team_name = form.team_name.data
+        matches = form.matches.data
+        fouls_win = form.fouls_win.data
+        fouls_conceded = form.fouls_conceded.data
+        yellow_cards = form.yellow_cards.data
+        red_cards = form.red_cards.data
+
+        con = sql.connect("database.db") 
+
+        try:            
+            cursor=con.cursor()
+            query = "INSERT INTO DISCIPLINE (team,matches,foulsWin,foulsConceded,yellowCards,redCards) VALUES (?,?,?,?,?,?)"
+            cursor.execute("PRAGMA foreign_keys = ON")
+            cursor.execute(query,(team_name,matches,fouls_win,fouls_conceded,yellow_cards,red_cards))
+            con.commit()  
+
+            cursor.close() 
+        except:
+            con.rollback()
+            return redirect(url_for("error"))
+
+        return redirect(url_for("discipline"))
     
     else:
         return render_template("discipline/add_discipline.html", form=form)
 
+@app.route("/delete_discipline/<string:id>")
+def delete_discipline(id):
+
+    with sql.connect("database.db") as con:
+       cursor=con.cursor()
+       cursor.execute("PRAGMA foreign_keys = ON")
+       query = "DELETE FROM DISCIPLINE WHERE id = ?" 
+
+       cursor.execute(query,(id,))
+
+       con.commit() 
+
+    return redirect(url_for("discipline"))
+
+@app.route("/edit_discipline/<string:id>", methods=["GET","POST"])
+def edit_discipline(id):
+
+    if request.method == "GET":
+        form = DisciplineForm()
+
+        with sql.connect("database.db") as con:
+            con.row_factory = sql.Row
+            cur=con.cursor()
+            cur.execute("PRAGMA foreign_keys = ON")
+
+            query = "SELECT * FROM DISCIPLINE WHERE (id = ?)"
+            cur.execute(query,(id,))
+
+            team = cur.fetchone()
+
+            form.team_name.data = team["team"]
+            form.matches.data = team["matches"]
+            form.fouls_win.data = team["foulsWin"]
+            form.fouls_conceded.data = team["foulsConceded"]
+            form.yellow_cards.data = team["yellowCards"]
+            form.red_cards.data = team["redCards"]
+
+        return render_template("discipline/edit_discipline.html", form=form)
+
+    if request.method == "POST":
+        form = DisciplineForm(request.form)
+        team_name = form.team_name.data
+        matches = form.matches.data
+        fouls_win = form.fouls_win.data
+        fouls_conceded = form.fouls_conceded.data
+        yellow_cards = form.yellow_cards.data
+        red_cards = form.red_cards.data
+
+        con = sql.connect("database.db")
+
+        try:
+            con.row_factory = sql.Row
+            cur=con.cursor()
+            cur.execute("PRAGMA foreign_keys = ON")
+            query = "UPDATE DISCIPLINE SET team = ?, matches = ?, foulsWin = ?, foulsConceded = ?, yellowCards = ?, redCards = ?  WHERE id = ?"
+            cur.execute(query,(team_name,matches,fouls_win,fouls_conceded,yellow_cards,red_cards,  id))
+            con.commit()
+            cur.close()
+        except:
+            con.rollback()
+            return redirect(url_for("error"))
+
+        return redirect(url_for("discipline"))
 
 
 
