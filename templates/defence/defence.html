@@ -28,18 +28,18 @@
           
             {% for team in teams %}
             <tr>
-                <td>{{ team.team_name }}</td>
-                <td>{{ team.saves_made }}</td>
+                <td>{{ team.team }}</td>
+                <td>{{ team.savesMade }}</td>
                 <td>{{ team.blocks }}</td>
-                <td>{{ team.total_clearances}}</td>
+                <td>{{ team.totalClearances}}</td>
                 <td>{{ team.interceptions}}</td>
                 <td>{{ team.recoveries }}</td>
-                <td>{{ team.goals_conceded }}</td>
+                <td>{{ team.GoalsConceded }}</td>
 
-                <td><a href="/delete/{{ task.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
+                <td><a href="/delete_defence/{{ team.id }}" class="btn btn-outline-danger btn-sm"> Delete </a></td>
 
                
-                <td><a href="/edit/{{ task.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
+                <td><a href="/edit_defence/{{ team.id }}" class="btn btn-outline-success btn-sm"> Update </a></td>  
 
             </tr>
             {% endfor %}
