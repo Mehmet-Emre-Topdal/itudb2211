@@ -582,7 +582,7 @@ def defence():
 
         teams = cursor.fetchall()
 
-   return render_template("defence/defence.html")
+    return render_template("defence/defence.html",teams=teams)
 
 
 
@@ -703,7 +703,7 @@ def discipline():
 
         teams = cursor.fetchall()
 
-   return render_template("discipline/discipline.html")
+    return render_template("discipline/discipline.html",teams=teams)
 
 
 
